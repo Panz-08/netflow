@@ -319,8 +319,9 @@ sepi 30 detik supaya layar nggak penuh.
 
 ## Kontributor
 
-- **Panz-08** — ide, kode, tampilan.
-- **Nakki-Kun** — bantu dokumentasi dan pengecekan.
+- **Panz-08** ([@Panz-08](https://github.com/Panz-08)) — ide, kode, tampilan.
+- **Nakki-Kun** ([@Nakki-Kun](https://github.com/Nakki-Kun)) — dokumentasi, FAQ,
+  dan pengecekan.
 
 Kalau nemu bug atau punya ide, silakan buka issue. Nggak harus jago Rust;
 laporan "ini bingung dibacanya" juga berguna banget.

@@ -2,7 +2,7 @@
 name = "netflow"
 version = "0.2.0"
 edition = "2021"
-authors = ["Panz-08"]
+authors = ["Panz-08", "Nakki-Kun"]
 description = "NetFlow - analisis jalur data di port, tampil sebagai selang dan bola yang bergerak"
 
 [[bin]]
