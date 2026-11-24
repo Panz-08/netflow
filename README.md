@@ -137,6 +137,15 @@ ntf wlan0 --filter "tcp port 22"
 ntf wlan0 --filter "udp port 53"
 ```
 
+Kalau mau lihat semua interface sekaligus, pakai `any`:
+
+```bash
+ntf any
+```
+
+Mode ini memakai Linux cooked capture (SLL), jadi tetap bisa membaca paket dari
+Wi-Fi, kabel, dan loopback dalam satu tampilan.
+
 Buat ngajar di kelas:
 
 ```bash

@@ -45,6 +45,17 @@ fn local_ips(iface: &str) -> HashSet<IpAddr> {
         .unwrap_or_default()
 }
 
+/// Device virtual tertentu tidak mendukung promiscuous mode. Kalau dipaksa,
+/// libpcap gagal membuka capture (contoh: `Promiscuous mode not supported on
+/// the "any" device`).
+fn supports_promisc(iface: &str) -> bool {
+    !(iface == "any"
+        || iface.starts_with("nflog")
+        || iface.starts_with("nfqueue")
+        || iface.starts_with("dbus-")
+        || iface == "bluetooth-monitor")
+}
+
 /// Jalankan di `spawn_blocking`. Berhenti saat channel ditutup.
 pub fn run(
     tx: mpsc::Sender<SourceEvent>,
@@ -53,11 +64,13 @@ pub fn run(
 ) -> Result<(), Error> {
     let local = local_ips(&iface);
 
-    let mut cap = Capture::from_device(iface.as_str())?
-        .promisc(true)
-        .snaplen(256)
-        .timeout(100)
-        .open()?;
+    let mut builder = Capture::from_device(iface.as_str())?;
+    // `any` (dan beberapa device virtual) tidak mendukung promiscuous mode;
+    // kalau dipaksa, libpcap menolak membuka capture sama sekali.
+    if supports_promisc(&iface) {
+        builder = builder.promisc(true);
+    }
+    let mut cap = builder.snaplen(256).timeout(100).open()?;
     if let Some(program) = filter {
         cap.filter(&program, true)?;
     }
@@ -490,5 +503,14 @@ mod tests {
         assert_eq!(service_port(40000, 22), 22);
         assert_eq!(service_port(443, 51000), 443);
         assert_eq!(service_port(40000, 50000), 40000);
+    }
+
+    #[test]
+    fn skips_promisc_on_virtual_devices() {
+        assert!(!supports_promisc("any"));
+        assert!(!supports_promisc("nflog"));
+        assert!(!supports_promisc("dbus-system"));
+        assert!(supports_promisc("wlan0"));
+        assert!(supports_promisc("enp4s0"));
     }
 }
