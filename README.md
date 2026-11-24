@@ -130,6 +130,9 @@ sudo setcap cap_net_raw,cap_net_admin=eip "$(command -v ntf)"
 ntf wlan0
 ```
 
+Catatan: kalau nanti `./install.sh` dijalankan lagi, binary-nya diganti dan
+izin `setcap` perlu dipasang ulang.
+
 Mau lebih spesifik? Pakai filter BPF:
 
 ```bash
