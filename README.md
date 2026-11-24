@@ -271,6 +271,28 @@ dinamis, parser IPv4/IPv6/VLAN/SLL, dan format tanggal CSV.
 daftar IP milik interface, bukan nebak-nebak port. Port yang dipakai buat jalur
 adalah port layanan yang dikenal; kalau nggak ada, pakai port yang lebih kecil.
 
+## FAQ singkat
+
+**Grafiknya kosong, padahal internet jalan.**
+Kalau `ntf` dijalankan tanpa nama interface, itu mode simulasi. Coba `ntf --list`,
+lalu jalankan `sudo ntf <interface>`. Kalau masih kosong, cek pesan di header.
+
+**Aman nggak dipakai di jaringan sekolah atau kantor?**
+NetFlow cuma membaca paket dan nggak mengubah apa pun. Tapi tetap minta izin admin
+jaringan sebelum menangkap traffic di jaringan yang bukan punyamu.
+
+**Kenapa angkanya beda sama speedtest?**
+Yang dihitung adalah ukuran paket yang lewat di interface, bukan kecepatan langganan
+internet. Jadi yang penting perbandingan antar jalur, bukan angka absolutnya.
+
+**Bisa lihat isi paketnya?**
+Nggak. Yang ditampilkan cuma alamat IP, port, dan ukuran paket. Isi data nggak
+disimpan dan nggak ditampilkan.
+
+**Kenapa muncul jalur baru terus hilang?**
+Itu jalur dinamis. Port yang lagi ramai dapat jalur sendiri, lalu memudar setelah
+sepi 30 detik supaya layar nggak penuh.
+
 ## Rencana
 
 - [x] Tampilan selang + bola, tema Slate
